@@ -23,6 +23,30 @@ class Token{
         }, 15);
     }
 
+
+    winnerAnimation(positionsOfTokens, player){
+        const tokensEl = [];
+
+		for(let token of positionsOfTokens){
+			const indexOfEl = (7 * token.y) + token.x;
+			if(boardElChildren[indexOfEl]) tokensEl.push(boardElChildren[indexOfEl]);
+		}
+
+		tokensEl.forEach((token, index) => {
+			setTimeout(() => {
+				console.log(token)
+				token.animate([
+					{backgroundColor: "black"},
+					{backgroundColor: "green"},
+					{backgroundColor: "black"},
+				],{
+					duration: 3000,
+					iteration: 1
+				})
+			}, 100 * index)
+		})
+    }
+
 }
 
 export default Token;
