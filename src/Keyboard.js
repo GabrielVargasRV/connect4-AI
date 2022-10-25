@@ -1,34 +1,38 @@
 
-document.addEventListener("keyup", Keyboard.handleKeyUp);
 
+const listinTo = new Map();
+const keyUpCallbacks = [];
 class Keyboard{
-    listinTo = new Map();
-
+    
     static handleKeyUp(event){
-        if(this.listinTo.has(event.keyCode)){
-            this.listinTo.get().forEach((callback) => {
+        if(listinTo.has(event.keyCode)){
+            listinTo.get().forEach((callback) => {
                 callback(event);
             })
         }
 
-        this.keyup(event);
+        // console.log(event);
+        keyUpCallbacks.forEach((callback) => callback(event));
     }
-
-    static keyup(event){
-        // callback()
+    
+    
+    
+    static keyup(callback){
+        keyUpCallbacks.push(callback);
     }
 
     static onKeyUp(keyCode, callback){
-        if(!this.listinTo.has(keyCode)){
-            this.listinTo.set(keyCode, []);
+        if(!listinTo.has(keyCode)){
+            listinTo.set(keyCode, []);
         }
-
-        const callbacks = this.listinTo.get(keyCode);
+        
+        const callbacks = listinTo.get(keyCode);
         callbacks.push(callback);
-
-        this.listinTo.set(keyCode, callbacks);
+        
+        listinTo.set(keyCode, callbacks);
     }
 }
 
+document.addEventListener("keyup", Keyboard.handleKeyUp);
 
 export default Keyboard;

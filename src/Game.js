@@ -1,9 +1,18 @@
 import Player from "./Player";
 import { checkForWinner } from "./utils";
+import Keyboard from "./Keyboard";
 
 // Game Utils
 
-
+const keys = {
+	49: 0,
+	50: 1,
+	51: 2,
+	52: 3,
+	53: 4,
+	54: 5,
+	55: 6,
+}
 
 
 class Game {
@@ -25,20 +34,38 @@ class Game {
         this.turnOf = this.redPlayer;
     }
 
-
-    loop(){
-
-    }
-
     run(){
         this.isRunning = true;
 
+        Keyboard.keyup((event) => {
+            if(keys[event.keyCode] === undefined) return;
+
+            this.turnOf.placeToken(keys[event.keyCode], this.data);
+
+            this.changeTurnOf();
+
+            const winner = checkForWinner(this.data, {red: this.redPlayer, yellow: this.yellowPlayer});
+            winner?.player.winnerAnimation(winner.tokensCoords, winner.player);
+        })
+
         setInterval(() => {
-            this.loop();
+            // this.loop();
         }, 30)
 
+        
     }
+
+  	changeTurnOf(){
+		if(this.turnOf.color === 'red'){
+			this.turnOf = this.yellowPlayer;      
+			return
+		}
+
+		this.turnOf = this.redPlayer;
+	}
 
 
 
 }
+
+export default Game;
