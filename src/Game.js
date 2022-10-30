@@ -1,6 +1,7 @@
 import Player from "./Player";
 import { checkForWinner } from "./utils";
 import Keyboard from "./Keyboard";
+import Header from "./Header";
 
 // Game Utils
 
@@ -58,12 +59,17 @@ class Game {
     }
 
   	changeTurnOf(){
+        // change to yellow
 		if(this.turnOf.color === 'red'){
-			this.turnOf = this.yellowPlayer;      
-			return
+			this.turnOf = this.yellowPlayer;
+            Header.changeToYellow();
+			return;
 		}
 
+        // change to red
 		this.turnOf = this.redPlayer;
+        Header.changeToRed();
+        return;
 	}
 
 
