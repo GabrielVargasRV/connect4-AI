@@ -3,6 +3,9 @@
 
 class Token{
     constructor(color, x, y){
+        this.x = x;
+        this.y = y;
+
         this.element = document.createElement("div");
         this.element.classList.add(`token-${color}`);
 

@@ -111,6 +111,7 @@ export function checkForWinner(board, players){
                 return {
                     tokensCoords: diagonalRightToLeftRedPlayerResult,
                     player: players.red,
+                    direction: 'RTL'
                 }
             }
 
@@ -120,6 +121,7 @@ export function checkForWinner(board, players){
                 return {
                     tokensCoords: diagonalRightToLeftYellowPlayerResult,
                     player: players.yellow,
+                    direction: 'RTL'
                 }
             }
 
@@ -128,7 +130,8 @@ export function checkForWinner(board, players){
             if(diagonalLeftToRightRedPlayerResult){
                 return {
                     tokensCoords: diagonalLeftToRightRedPlayerResult,
-                    player: players.red
+                    player: players.red,
+                    direction: 'LTR'
                 }
             }
 
@@ -137,7 +140,8 @@ export function checkForWinner(board, players){
             if(diagonalLeftToRightYellowPlayerResult){
                 return {
                     tokensCoords: diagonalLeftToRightYellowPlayerResult,
-                    player: players.yellow
+                    player: players.yellow,
+                    direction: 'LTR'
                 }
             }
 
@@ -147,6 +151,7 @@ export function checkForWinner(board, players){
                 return {
                     tokensCoords: verticalRedPlayerResult,
                     player: players.red,
+                    direction: 'V'
                 }
             }
 
@@ -155,7 +160,8 @@ export function checkForWinner(board, players){
             if(verticalYellowPlayerResult){
                 return {
                     tokensCoords: verticalYellowPlayerResult,
-                    player: players.yellow
+                    player: players.yellow,
+                    direction: 'V'
                 }
             }
 
@@ -165,6 +171,7 @@ export function checkForWinner(board, players){
                 return {
                     tokensCoords: horizontalRedPlayerResult,
                     player: players.red,
+                    direction: 'H'
                 }
             }
 
@@ -173,7 +180,8 @@ export function checkForWinner(board, players){
             if(horizontalYellowPlayerResult) {
                 return {
                     tokensCoords: horizontalYellowPlayerResult,
-                    player: players.yellow
+                    player: players.yellow,
+                    direction: 'H'
                 }
             }
 

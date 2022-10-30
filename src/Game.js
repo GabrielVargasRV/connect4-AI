@@ -45,9 +45,11 @@ class Game {
             this.changeTurnOf();
 
             const winner = checkForWinner(this.data, {red: this.redPlayer, yellow: this.yellowPlayer});
-            winner?.player.winnerAnimation(winner.tokensCoords, winner.player);
+            winner?.player.winnerAnimation(winner);
         })
 
+
+        
         setInterval(() => {
             // this.loop();
         }, 30)

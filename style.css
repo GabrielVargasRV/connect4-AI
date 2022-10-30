@@ -16,7 +16,7 @@ body{
 }
 
 .board-container{
-  width: 600px;
+  width: 580px;
   height: 500px;
   display: grid;
   grid-template-columns: 100%;
@@ -102,6 +102,16 @@ body{
   border: 3px solid black;
 }
 
+.bar{
+  width: 200px;
+  height: 8px;
+  border-radius: 8px;
+  background-color: #7DCE13;
+  border: 2px solid #2B7A0B;
+  position: fixed;
+  margin: 0px;
+  padding: 0px;
+}
 
 @keyframes token-winner {
   0%{
