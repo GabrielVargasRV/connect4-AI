@@ -2,6 +2,7 @@ import Player from "./Player";
 import { checkForWinner } from "./utils";
 import Keyboard from "./Keyboard";
 import Header from "./Header";
+import WinnerModal from "./WinnerModal";
 
 // Game Utils
 
@@ -39,22 +40,18 @@ class Game {
         this.isRunning = true;
 
         Keyboard.keyup((event) => {
-            if(keys[event.keyCode] === undefined) return;
+            if(!this.isRunning || keys[event.keyCode] === undefined) return;
 
             this.turnOf.placeToken(keys[event.keyCode], this.data);
-
             this.changeTurnOf();
 
             const winner = checkForWinner(this.data, {red: this.redPlayer, yellow: this.yellowPlayer});
-            winner?.player.winnerAnimation(winner);
+            if(winner){
+                winner.player.winnerAnimation(winner);
+                WinnerModal.setWithDelay(winner.player.color, 1000);
+                this.isRunning = false;
+            }
         })
-
-
-        
-        setInterval(() => {
-            // this.loop();
-        }, 30)
-
         
     }
 

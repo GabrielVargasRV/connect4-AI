@@ -41,15 +41,32 @@ class Player{
         this.tokens = new Map();
     }
 
-    placeToken(xIndex, board){
+    createToken(targetPosition){
+        return new Token(this.color, targetPosition.x, targetPosition.y)
+    }
+
+    getBoundingClientRect(x, y){
+        return boardElChildren[(7 * y) + x].getBoundingClientRect();
+    }
+
+    setToken(x, y, token){
+        this.tokens.set(`x${x}.y${y}`, token);
+    }
+
+    placeToken(xIndex, board, callback){
+
+        const checkIfPlaceIsEmpty = (y) => {
+            return board[y][xIndex] === 0;
+        }
         
         for(let y = board.length - 1; y >= 0; y--){
 
-            if(board[y][xIndex] === 0){
+            if(checkIfPlaceIsEmpty(y)){
                 board[y][xIndex] = this.id;
 
-                const targetPosition = boardElChildren[(7 * y) + xIndex].getBoundingClientRect();
-                this.tokens.set(`x${xIndex}.y${y}`, new Token(this.color, targetPosition.x, targetPosition.y));
+                const targetPosition = this.getBoundingClientRect(xIndex, y);
+                const token = this.createToken(targetPosition);
+                this.setToken(xIndex, y, token);
 
                 return;
             }

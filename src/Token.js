@@ -9,21 +9,32 @@ class Token{
         this.element = document.createElement("div");
         this.element.classList.add(`token-${color}`);
 
-        let currentY = 100;
+        this.currentY = 100;
             
-        this.element.style.top = `${currentY}px`;
-        this.element.style.left = `${x}px`;
+        this.element.style.top = `${this.currentY}px`;
+        this.element.style.left = `${this.x}px`;
         document.body.appendChild(this.element);
 
-        this.intervalId = setInterval(() => {
-            if(currentY > y){
-                clearInterval(this.intervalId);
-                currentY = y;
-            }else{
-                currentY += 25;
-            }
-            this.element.style.top = `${currentY}px`
-        }, 15);
+        this.animationFallInPlace(y)
+    }
+    
+    animationFallInPlace(targetY,callback = () => {}){
+
+        const clearIntervalAndSetY = () => {
+            clearInterval(this.intervalId);
+            this.currentY = targetY;
+        }
+
+        const intervalCallback = () => { 
+            if(this.currentY >= targetY) {
+                clearIntervalAndSetY();
+                callback();
+            }else this.currentY += 25;
+    
+            this.element.style.top = `${this.currentY}px`
+        }
+
+        this.intervalId = setInterval(intervalCallback, 15);
     }
 
     changeColor(color){
