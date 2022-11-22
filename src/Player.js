@@ -102,6 +102,15 @@ class Player{
 
         return barElement;
     }
+
+
+    deleteAllTokens(){
+        this.tokens.forEach((token) => {
+            token.delete();
+        });
+
+        this.tokens.clear();
+    }
 }
 
 

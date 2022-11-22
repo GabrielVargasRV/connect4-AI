@@ -40,6 +40,11 @@ class Game {
         this.isRunning = true;
 
         Keyboard.keyup((event) => {
+
+            if(event.keyCode === 65) {
+                this.redPlayer.deleteAllTokens();
+            }
+
             if(!this.isRunning || keys[event.keyCode] === undefined) return;
 
             this.turnOf.placeToken(keys[event.keyCode], this.data);
@@ -68,8 +73,6 @@ class Game {
         Header.changeToRed();
         return;
 	}
-
-
 
 }
 

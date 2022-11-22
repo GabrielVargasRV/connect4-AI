@@ -1,4 +1,5 @@
-
+import tokenSoundSRC from "./assets/token_sound.mp3";
+const TokenSound = new Audio(tokenSoundSRC);
 
 
 class Token{
@@ -30,7 +31,8 @@ class Token{
                 clearIntervalAndSetY();
                 callback();
             }else this.currentY += 25;
-    
+            
+            this.playTokenSound();
             this.element.style.top = `${this.currentY}px`
         }
 
@@ -39,6 +41,14 @@ class Token{
 
     changeColor(color){
         this.element.style.backgroundColor = color;
+    }
+
+    delete(){
+        this.element.remove();
+    }
+
+    playTokenSound(){
+        TokenSound.play();
     }
 
 }
