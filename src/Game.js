@@ -34,30 +34,45 @@ class Game {
 
 
         this.turnOf = this.redPlayer;
+
+
+        this.coolDown = false;
     }
 
     run(){
         this.isRunning = true;
 
         Keyboard.keyup((event) => {
+            if(!this.isRunning || keys[event.keyCode] === undefined || this.coolDown) return;
 
+
+            // Delete all Tokens
             if(event.keyCode === 65) {
                 this.redPlayer.deleteAllTokens();
             }
 
-            if(!this.isRunning || keys[event.keyCode] === undefined) return;
-
             this.turnOf.placeToken(keys[event.keyCode], this.data);
             this.changeTurnOf();
 
+            this.coolDownTimeout();
+
             const winner = checkForWinner(this.data, {red: this.redPlayer, yellow: this.yellowPlayer});
-            if(winner){
-                winner.player.winnerAnimation(winner);
-                WinnerModal.setWithDelay(winner.player.color, 1000);
-                this.isRunning = false;
-            }
+            if(winner) this.win(winner);
         })
         
+    }
+
+    coolDownTimeout(milliseconds = 1000){
+        this.coolDown = true;
+        setTimeout(() => {
+            this.coolDown = false;
+        }, milliseconds)
+    }
+
+    win(winner){
+        winner.player.winnerAnimation(winner);
+        WinnerModal.setWithDelay(winner.player.color, 1000);
+        this.isRunning = false;
     }
 
   	changeTurnOf(){
