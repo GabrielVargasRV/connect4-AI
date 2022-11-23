@@ -18,27 +18,6 @@ const data = [
 ]
 net.train(data);
 
-const board = [
-	[0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0],
-];
-
-const keys = {
-	49: 0,
-	50: 1,
-	51: 2,
-	52: 3,
-	53: 4,
-	54: 5,
-	55: 6,
-}
-
-const boardEl = document.getElementById("board");
-const boardElChildren = boardEl.children;
 
 const game = new Game();
 

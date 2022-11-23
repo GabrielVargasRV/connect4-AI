@@ -17,60 +17,82 @@ const keys = {
 }
 
 
+const CreateGameTableCopy = () => {
+    const InitialGameTableArray = [
+        [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0],
+    ]
+    
+    const copy = JSON.parse(JSON.stringify(InitialGameTableArray));
+    return copy;
+}
+
 class Game {
     constructor(){
         this.isRunning = false;
-        this.data = [
-            [0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0],
-        ]
+        this.gameTable = CreateGameTableCopy();
 
         this.redPlayer = new Player('red', 1);
         this.yellowPlayer = new Player('yellow', 2);
 
 
         this.turnOf = this.redPlayer;
+        this.isCoolingDown = false;
+    }
 
+    restart(){
+        // restart players
+        this.redPlayer.restart();
+        this.yellowPlayer.restart();
 
-        this.coolDown = false;
+        // restart header and reset turnOf
+        this.turnOf = this.redPlayer;
+        Header.changeToRed();
+
+        // reset table
+        this.gameTable = CreateGameTableCopy();
+        
+        // remove winner modal
+        WinnerModal.remove();
+
+        this.isRunning = true;
+
+        this.setCoolDownWithTimeout(500);
     }
 
     run(){
         this.isRunning = true;
 
         Keyboard.keyup((event) => {
-            if(!this.isRunning || keys[event.keyCode] === undefined || this.coolDown) return;
+            console.log(this.isRunning, this.isCoolingDown)
+            if(!this.isRunning || keys[event.keyCode] === undefined || this.isCoolingDown) return;
 
 
-            // Delete all Tokens
-            if(event.keyCode === 65) {
-                this.redPlayer.deleteAllTokens();
-            }
-
-            this.turnOf.placeToken(keys[event.keyCode], this.data);
+            this.turnOf.placeToken(keys[event.keyCode], this.gameTable);
             this.changeTurnOf();
 
-            this.coolDownTimeout();
+            this.setCoolDownWithTimeout(700);
 
-            const winner = checkForWinner(this.data, {red: this.redPlayer, yellow: this.yellowPlayer});
+            const winner = checkForWinner(this.gameTable, {red: this.redPlayer, yellow: this.yellowPlayer});
             if(winner) this.win(winner);
-        })
+        });
         
     }
 
-    coolDownTimeout(milliseconds = 1000){
-        this.coolDown = true;
+    setCoolDownWithTimeout(milliseconds = 1000){
+        this.isCoolingDown = true;
         setTimeout(() => {
-            this.coolDown = false;
+            this.isCoolingDown = false;
         }, milliseconds)
     }
 
     win(winner){
         winner.player.winnerAnimation(winner);
+        WinnerModal.setRestartFunction((event) => {this.restart()});
         WinnerModal.setWithDelay(winner.player.color, 1000);
         this.isRunning = false;
     }

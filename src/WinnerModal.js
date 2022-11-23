@@ -1,30 +1,29 @@
 const modal = document.getElementById('winner-modal');
 
-const refresh = () => {
-    window.location.reload();
-}
+
+let restartBtnCallback = null;
 
 class WinnerModal{
     static setRed(){
         modal.innerHTML = `
             <p>RED PLAYER WIN</p>
-            <button onclick="refresh" class="modal-button" id="refreshBtn" >PLAY AGAIN</button>
+            <button class="modal-button" id="refreshBtn" >PLAY AGAIN</button>
         `;
 
         modal.classList.add('modal-visible');
         modal.classList.add('modal-red');
-        document.getElementById('refreshBtn').addEventListener('click', refresh);
+        document.getElementById('refreshBtn').addEventListener('click', restartBtnCallback);
     }
 
     static setYellow(){
         modal.innerHTML = `
             <p>YELLOW PLAYER WIN</p>
-            <button onclick="refresh" class="modal-button" id="refreshBtn" >PLAY AGAIN</button>
+            <button class="modal-button" id="refreshBtn" >PLAY AGAIN</button>
         `
 
         modal.classList.add('modal-visible');
         modal.classList.add('modal-yellow');
-        document.getElementById('refreshBtn').addEventListener('click', refresh);
+        document.getElementById('refreshBtn').addEventListener('click', restartBtnCallback);
     }
 
     static set(color){
@@ -36,6 +35,19 @@ class WinnerModal{
         setTimeout(() => {
             this.set(color);
         }, delay)
+    }
+
+    static setRestartFunction(callback){
+        restartBtnCallback = callback;
+    }
+
+    static remove(){
+        modal.innerHTML = '';
+        modal.classList.remove('modal-visible');
+        modal.classList.remove('modal-red');
+        modal.classList.remove('modal-yellow');
+
+        modal.classList.add('modal-hidden');
     }
 }
 

@@ -41,6 +41,11 @@ class Player{
         this.tokens = new Map();
     }
 
+    restart(){
+        this.deleteAllTokens();
+        this.barEl?.remove();
+    }
+
     createToken(targetPosition){
         return new Token(this.color, targetPosition.x, targetPosition.y)
     }
@@ -90,17 +95,17 @@ class Player{
     }
 
     createBarAndAppend({x, y, properties}){
-        const barElement = document.createElement('div');
+        this.barEl = document.createElement('div');
         
-        barElement.classList.add('bar');
-        barElement.style.left = `${x + properties.xOffset}px`;
-        barElement.style.top = `${y + properties.yOffset}px`;
-        barElement.style.width = `${properties.width}px`
-        barElement.style.transform = `rotate(${properties.deg})`;
+        this.barEl.classList.add('bar');
+        this.barEl.style.left = `${x + properties.xOffset}px`;
+        this.barEl.style.top = `${y + properties.yOffset}px`;
+        this.barEl.style.width = `${properties.width}px`
+        this.barEl.style.transform = `rotate(${properties.deg})`;
 
-        document.body.appendChild(barElement);
+        document.body.appendChild(this.barEl);
 
-        return barElement;
+        return this.barEl;
     }
 
 
