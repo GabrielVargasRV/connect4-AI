@@ -34,7 +34,7 @@ const CreateGameTableCopy = () => {
 class Game {
     constructor(){
         this.isRunning = false;
-        this.gameTable = CreateGameTableCopy();
+        this.gameTable = CreateGameTableCopy(); // <-----------------------
 
         this.redPlayer = new Player('red', 1);
         this.yellowPlayer = new Player('yellow', 2);
@@ -54,7 +54,7 @@ class Game {
         Header.changeToRed();
 
         // reset table
-        this.gameTable = CreateGameTableCopy();
+        this.gameTable = CreateGameTableCopy(); // <-------------------------
         
         // remove winner modal
         WinnerModal.remove();
@@ -67,20 +67,20 @@ class Game {
     run(){
         this.isRunning = true;
 
-        Keyboard.keyup((event) => {
-            console.log(this.isRunning, this.isCoolingDown)
-            if(!this.isRunning || keys[event.keyCode] === undefined || this.isCoolingDown) return;
+        Keyboard.keyup(this.onKeyUp.bind(this));   
+    }
+
+    onKeyUp(event){
+        if(!this.isRunning || keys[event.keyCode] === undefined || this.isCoolingDown) return;
 
 
-            this.turnOf.placeToken(keys[event.keyCode], this.gameTable);
-            this.changeTurnOf();
+        this.turnOf.placeToken(keys[event.keyCode], this.gameTable);
+        this.changeTurnOf();
 
-            this.setCoolDownWithTimeout(700);
+        this.setCoolDownWithTimeout(700);
 
-            const winner = checkForWinner(this.gameTable, {red: this.redPlayer, yellow: this.yellowPlayer});
-            if(winner) this.win(winner);
-        });
-        
+        const winner = checkForWinner(this.gameTable, {red: this.redPlayer, yellow: this.yellowPlayer});
+        if(winner) this.win(winner);
     }
 
     setCoolDownWithTimeout(milliseconds = 1000){

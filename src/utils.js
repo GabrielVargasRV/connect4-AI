@@ -192,3 +192,21 @@ export function checkForWinner(board, players){
 }
 
 
+
+
+
+
+
+export const createBoard2DArray = () => {
+    const InitialGameTableArray = [
+        [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0],
+    ]
+    
+    const copy = JSON.parse(JSON.stringify(InitialGameTableArray));
+    return copy;
+}
