@@ -4,6 +4,8 @@ import Keyboard from "./Keyboard";
 import Header from "./Header";
 import WinnerModal from "./WinnerModal";
 
+import Board from "./Board";
+
 // Game Utils
 
 const keys = {
@@ -53,8 +55,7 @@ class Game {
         this.turnOf = this.redPlayer;
         Header.changeToRed();
 
-        // reset table
-        this.gameTable = CreateGameTableCopy(); // <-------------------------
+        Board.restart();
         
         // remove winner modal
         WinnerModal.remove();
@@ -79,7 +80,7 @@ class Game {
 
         this.setCoolDownWithTimeout(700);
 
-        const winner = checkForWinner(this.gameTable, {red: this.redPlayer, yellow: this.yellowPlayer});
+        const winner = checkForWinner(Board.getVirtualBoard(), {red: this.redPlayer, yellow: this.yellowPlayer});
         if(winner) this.win(winner);
     }
 
@@ -91,7 +92,7 @@ class Game {
     }
 
     win(winner){
-        winner.player.winnerAnimation(winner);
+        Board.winnerAnimation({player: winner.player, tokensCoords: winner.tokensCoords, direction: winner.direction})
         WinnerModal.setRestartFunction((event) => {this.restart()});
         WinnerModal.setWithDelay(winner.player.color, 1000);
         this.isRunning = false;
