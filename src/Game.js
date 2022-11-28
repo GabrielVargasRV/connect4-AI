@@ -1,4 +1,5 @@
 import Player from "./Player";
+import PlayerAI from "./AI";
 import { checkForWinner } from "./utils";
 import Keyboard from "./Keyboard";
 import Header from "./Header";
@@ -39,7 +40,7 @@ class Game {
         this.gameTable = CreateGameTableCopy(); // <-----------------------
 
         this.redPlayer = new Player('red', 1);
-        this.yellowPlayer = new Player('yellow', 2);
+        this.yellowPlayer = new PlayerAI('yellow', 2);
 
 
         this.turnOf = this.redPlayer;
@@ -73,13 +74,15 @@ class Game {
 
     onKeyUp(event){
         if(!this.isRunning || keys[event.keyCode] === undefined || this.isCoolingDown) return;
+        const player = this.turnOf;
+
+        if(player.mode && player.mode != 'train') return;
 
 
-        this.turnOf.placeToken(keys[event.keyCode], this.gameTable);
+        player.placeToken(keys[event.keyCode])
+
         this.changeTurnOf();
-
         this.setCoolDownWithTimeout(700);
-
         const winner = checkForWinner(Board.getVirtualBoard(), {red: this.redPlayer, yellow: this.yellowPlayer});
         if(winner) this.win(winner);
     }
@@ -98,10 +101,22 @@ class Game {
         this.isRunning = false;
     }
 
+    playTurnOfAIWithDelay(delay = 700){
+        setTimeout(() => {
+            this.turnOf.placeToken();
+            this.changeTurnOf()
+        }, delay)
+    }
+
   	changeTurnOf(){
         // change to yellow
 		if(this.turnOf.color === 'red'){
 			this.turnOf = this.yellowPlayer;
+
+            if(this.turnOf.playerType === 'AI' && this.turnOf.mode === 'play'){
+                this.playTurnOfAIWithDelay();
+            }
+                
             Header.changeToYellow();
 			return;
 		}

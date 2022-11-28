@@ -43,6 +43,10 @@ let barsHTML = [];
 
 class Board{
 
+    static getRandomBoard(){
+        
+    }
+
     static getVirtualBoard(){
         return virtualBoard;
     }
@@ -141,6 +145,18 @@ class Board{
         this.removeAllTokensHTML();
         this.removeAllBarsHTML();
         this.restartVirtualBoard();
+    }
+
+    static virtualBoardTo1D(){
+        const oneDimensionVirtualBoard = [];
+
+        for(let i = 0; i < virtualBoard.length; i++){
+            for(let j of virtualBoard[i]){
+                oneDimensionVirtualBoard.push(j);
+            }
+        }
+
+        return oneDimensionVirtualBoard;
     }
 }
 
